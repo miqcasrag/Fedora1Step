@@ -28,59 +28,22 @@ else
   exit 1
 fi
 
-# Install GNOME Tweaks and GNOME Shell Extension
-echo "Installing GNOME Tweaks and GNOME Shell Extension..."
-dnf install -y gnome-tweaks gnome-shell-extension
+# Install GNOME Tweaks
+echo "Installing GNOME Tweaks..."
+dnf install -y gnome-tweaks
 
-# Install pipx (Python package manager)
-echo "Installing pipx..."
-dnf install -y pipx
-pipx install gnome-extensions-cli
+# Install the Extension Manager from Flathub
+echo "Installing Extension Manager..."
+flatpak install -y flathub com.mattjakeman.ExtensionManager
 
-# Install and activate each GNOME extension manually
-echo "Installing GNOME extension Dash to Panel (ID 1160)..."
-gext install 1160
-
-# Ask user if they want to activate the extension Dash to Panel
-read -p "Do you want to activate the Dash to Panel extension? (y/n): " answer
-if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-  gext enable 1160
-  echo "Dash to Panel activated."
-else
-  echo "Skipping activation of Dash to Panel."
-fi
-
-echo "Installing GNOME extension Arc Menu (ID 3628)..."
-gext install 3628
-
-# Ask user if they want to activate the extension Arc Menu
-read -p "Do you want to activate the Arc Menu extension? (y/n): " answer
-if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-  gext enable 3628
-  echo "Arc Menu activated."
-else
-  echo "Skipping activation of Arc Menu."
-fi
-
-echo "Installing GNOME extension Workspace Indicator (ID 615)..."
-gext install 615
-
-# Ask user if they want to activate the extension Workspace Indicator
-read -p "Do you want to activate the Workspace Indicator extension? (y/n): " answer
-if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-  gext enable 615
-  echo "Workspace Indicator activated."
-else
-  echo "Skipping activation of Workspace Indicator."
-fi
-
-# Ask user if they want to update the system packages now
+# Ask the user if they want to update the system
 read -p "Do you want to update the system packages now? (y/n): " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   echo "Updating system packages..."
   dnf update -y
+  echo "System update completed."
 else
-  echo "Skipping system update."
+  echo "System update skipped."
 fi
 
-echo "Setup complete! Your Fedora system is ready to go."
+echo "Configuration completed successfully."
