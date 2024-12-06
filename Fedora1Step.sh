@@ -37,27 +37,20 @@ echo "Installing pipx..."
 dnf install -y pipx
 pipx install gnome-extensions-cli
 
-# Define an array with extension IDs
-EXTENSIONS=(
-  "1160"  # Dash to Panel
-  "3628"  # Arc Menu
-  "615"   # Workspace Indicator
-)
+# Install GNOME extensions using gext CLI
+echo "Installing GNOME extensions using gext CLI..."
+gext install 1160   # Dash to Panel
+gext install 3628   # Arc Menu
+gext install 615    # Workspace Indicator
 
-# Loop through each extension and ask user to activate after installation
-for EXT_ID in "${EXTENSIONS[@]}"; do
-  echo "Installing GNOME extension with ID: $EXT_ID"
-  gext install $EXT_ID
-
-  # Ask user if they want to activate this extension
-  read -p "Do you want to activate the extension with ID $EXT_ID now? (y/n): " enable_extension
-  if [[ "$enable_extension" == "y" || "$enable_extension" == "Y" ]]; then
-    echo "Activating GNOME extension with ID $EXT_ID..."
-    gext enable $EXT_ID
-  else
-    echo "Skipping activation for extension with ID $EXT_ID."
-  fi
-done
+# Ask user if they want to activate the installed extensions
+read -p "Do you want to activate the installed GNOME extensions now? (y/n): " enable_extensions
+if [[ "$enable_extensions" == "y" || "$enable_extensions" == "Y" ]]; then
+  echo "Activating GNOME extensions..."
+  gext enable
+else
+  echo "Skipping activation of GNOME extensions."
+fi
 
 # Ask user if they want to update the system packages
 read -p "Do you want to update the system packages now? (y/n): " answer
