@@ -36,30 +36,22 @@ dnf install -y gnome-tweaks
 echo "Enabling minimize and maximize buttons..."
 gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
 
-# Restart GNOME Shell to apply changes
-echo "Restarting GNOME Shell to apply button layout changes..."
-if [ "$XDG_CURRENT_DESKTOP" == "GNOME" ]; then
-  gnome-shell --replace &
-  sleep 5  # Give GNOME Shell some time to restart
-fi
+# Install GNOME Shell Extension Manager
+echo "Installing GNOME Shell Extension Manager..."
+dnf install -y gnome-shell-extension-manager
 
-# Install Extension Manager via Flatpak
-echo "Installing Extension Manager from Flathub..."
-flatpak install -y flathub com.mattjakeman.ExtensionManager
+# Use GNOME Shell Extension Manager to search and install "Dash to Panel" and "ArcMenu"
+echo "Installing popular GNOME extensions: Dash to Panel and ArcMenu..."
+gnome-shell-extension-manager install dash-to-panel@jderose9.github.com
+gnome-shell-extension-manager install arcmenu@arcmenu.com
 
-# Activate popular extensions automatically
-echo "Activating popular GNOME extensions..."
-flatpak run com.mattjakeman.ExtensionManager install-extension dash-to-panel@jderose9.github.com
-flatpak run com.mattjakeman.ExtensionManager install-extension arcmenu@arcmenu.com
-
-# Ask the user if they want to update the system
+# Ask user if they want to update the system packages
 read -p "Do you want to update the system packages now? (y/n): " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   echo "Updating system packages..."
   dnf update -y
-  echo "System packages updated."
 else
   echo "Skipping system update."
 fi
 
-echo "Setup complete! Your Fedora system is ready."
+echo "Setup complete! Your Fedora system is ready to go."
