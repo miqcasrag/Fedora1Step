@@ -32,6 +32,9 @@ fi
 echo "Installing GNOME Tweaks..."
 dnf install -y gnome-tweaks
 
+# Button layout
+gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
+
 # Install the Extension Manager from Flathub
 echo "Installing Extension Manager..."
 flatpak install -y flathub com.mattjakeman.ExtensionManager
