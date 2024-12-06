@@ -28,22 +28,20 @@ else
   exit 1
 fi
 
-# Install GNOME Tweaks
-echo "Installing GNOME Tweaks..."
-dnf install -y gnome-tweaks
+# Install GNOME Tweaks and GNOME Extensions
+echo "Installing GNOME Tweaks and GNOME Extensions..."
+dnf install -y gnome-tweaks gnome-extensions
 
-# Enable minimize and maximize buttons in GNOME
-echo "Enabling minimize and maximize buttons..."
-gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
+# Install pipx (Python package manager)
+echo "Installing pipx..."
+dnf install -y pipx
+pipx install gnome-extensions-cli --system-site-packages
 
-# Install GNOME Shell Extension Manager
-echo "Installing GNOME Shell Extension Manager..."
-dnf install -y gnome-shell-extension-manager
-
-# Use GNOME Shell Extension Manager to search and install "Dash to Panel" and "ArcMenu"
-echo "Installing popular GNOME extensions: Dash to Panel and ArcMenu..."
-gnome-shell-extension-manager install dash-to-panel@jderose9.github.com
-gnome-shell-extension-manager install arcmenu@arcmenu.com
+# Install GNOME extensions using gext CLI
+echo "Installing GNOME extensions using gext CLI..."
+gext install 1160   # Dash to Panel
+gext install 3628   # Arc Menu
+gext install 615    # Workspace Indicator
 
 # Ask user if they want to update the system packages
 read -p "Do you want to update the system packages now? (y/n): " answer
