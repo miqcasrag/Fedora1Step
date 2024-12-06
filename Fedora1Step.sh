@@ -28,31 +28,53 @@ else
   exit 1
 fi
 
-# Install GNOME Tweaks and GNOME Extensions
-echo "Installing GNOME Tweaks and GNOME Extensions..."
-dnf install -y gnome-tweaks gnome-extensions
+# Install GNOME Tweaks and GNOME Shell Extension
+echo "Installing GNOME Tweaks and GNOME Shell Extension..."
+dnf install -y gnome-tweaks gnome-shell-extension
 
 # Install pipx (Python package manager)
 echo "Installing pipx..."
 dnf install -y pipx
 pipx install gnome-extensions-cli
 
-# Install GNOME extensions using gext CLI
-echo "Installing GNOME extensions using gext CLI..."
-gext install 1160   # Dash to Panel
-gext install 3628   # Arc Menu
-gext install 615    # Workspace Indicator
+# Install and activate each GNOME extension manually
+echo "Installing GNOME extension Dash to Panel (ID 1160)..."
+gext install 1160
 
-# Ask user if they want to activate the installed extensions
-read -p "Do you want to activate the installed GNOME extensions now? (y/n): " enable_extensions
-if [[ "$enable_extensions" == "y" || "$enable_extensions" == "Y" ]]; then
-  echo "Activating GNOME extensions..."
-  gext enable
+# Ask user if they want to activate the extension Dash to Panel
+read -p "Do you want to activate the Dash to Panel extension? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  gext enable 1160
+  echo "Dash to Panel activated."
 else
-  echo "Skipping activation of GNOME extensions."
+  echo "Skipping activation of Dash to Panel."
 fi
 
-# Ask user if they want to update the system packages
+echo "Installing GNOME extension Arc Menu (ID 3628)..."
+gext install 3628
+
+# Ask user if they want to activate the extension Arc Menu
+read -p "Do you want to activate the Arc Menu extension? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  gext enable 3628
+  echo "Arc Menu activated."
+else
+  echo "Skipping activation of Arc Menu."
+fi
+
+echo "Installing GNOME extension Workspace Indicator (ID 615)..."
+gext install 615
+
+# Ask user if they want to activate the extension Workspace Indicator
+read -p "Do you want to activate the Workspace Indicator extension? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  gext enable 615
+  echo "Workspace Indicator activated."
+else
+  echo "Skipping activation of Workspace Indicator."
+fi
+
+# Ask user if they want to update the system packages now
 read -p "Do you want to update the system packages now? (y/n): " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   echo "Updating system packages..."
