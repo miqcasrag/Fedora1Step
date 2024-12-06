@@ -1,4 +1,4 @@
-# Fedora 1-Step Installer
+# Fedora1Step Installer
 
 This script sets up your Fedora system with my essential repositories, GNOME tools and extensions in a single step.
 
