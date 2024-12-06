@@ -35,7 +35,7 @@ dnf install -y gnome-tweaks gnome-extensions
 # Install pipx (Python package manager)
 echo "Installing pipx..."
 dnf install -y pipx
-pipx install gnome-extensions-cli --system-site-packages
+pipx install gnome-extensions-cli
 
 # Install GNOME extensions using gext CLI
 echo "Installing GNOME extensions using gext CLI..."
