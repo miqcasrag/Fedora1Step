@@ -24,8 +24,9 @@ A simple script to quickly set up your **Fedora 39+** system with essential tool
 
 **Step 2:** Run the following command to execute the script directly from GitHub:
 
+
 ```bash
-sudo bash <(curl -s https://raw.githubusercontent.com/miqcasrag/Fedora1Step/main/Fedora1Step.sh)
+curl -fsSL https://raw.githubusercontent.com/miqcasrag/Fedora1Step/main/Fedora1Step.sh -o Fedora1Step.sh && sudo bash Fedora1Step.sh
 ```
 
 ---
