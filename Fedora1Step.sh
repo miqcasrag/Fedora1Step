@@ -6,20 +6,21 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-# Detect Fedora version
-FEDORA_VERSION=$(rpm -E %fedora)
-
-# Check if the version is supported (Fedora 39 or higher)
-if [ "$FEDORA_VERSION" -lt 39 ]; then
-  echo "This script is designed for Fedora 39 or higher."
-  exit 1
-fi
+# Function to confirm actions
+confirm() {
+    read -p "Do you want to proceed with this action? (y/n): " answer
+    if [[ "$answer" != "y" && "$answer" != "Y" ]]; then
+        echo "Action cancelled."
+        exit 1
+    fi
+}
 
 # Install RPM Fusion repositories (Free and Non-Free)
 echo "Installing RPM Fusion repositories..."
-dnf install -y \
-  "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$FEDORA_VERSION.noarch.rpm" \
-  "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$FEDORA_VERSION.noarch.rpm"
+confirm
+dnf install \
+  "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+  "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 
 if [ $? -eq 0 ]; then
   echo "RPM Fusion repositories installed successfully."
@@ -28,53 +29,64 @@ else
   exit 1
 fi
 
-# Install multimedia codecs
-echo "Installing multimedia codecs..."
-dnf install -y \
-  gstreamer1-plugins-{bad-free,good,ugly} \
-  gstreamer1-plugins-bad-freeworld \
-  gstreamer1-plugin-openh264 \
-  lame \
-  libdvdcss \
-  x264 \
-  x265
-
-# Replace ffmpeg-free with full ffmpeg
-echo "Replacing ffmpeg-free with full ffmpeg..."
-dnf swap ffmpeg-free ffmpeg --allowerasing
+# Update system packages
+echo "Updating system packages..."
+confirm
+dnf update @core
 
 if [ $? -eq 0 ]; then
-  echo "Multimedia codecs installed successfully, including full ffmpeg."
+  echo "System packages updated successfully."
 else
-  echo "There was an issue installing multimedia codecs."
+  echo "System update encountered an issue."
+  exit 1
+fi
+
+# Install multimedia codecs
+echo "Installing multimedia codecs..."
+confirm
+dnf swap ffmpeg-free ffmpeg --allowerasing
+dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+
+if [ $? -eq 0 ]; then
+  echo "Codecs installed and updated successfully."
+else
+  echo "There was an error installing multimedia codecs."
   exit 1
 fi
 
 # Install GNOME Tweaks
 echo "Installing GNOME Tweaks..."
-dnf install -y gnome-tweaks
+confirm
+dnf install gnome-tweaks
 
-# Ask user to enable Minimize and Maximize buttons
-read -p "Do you want to enable Minimize and Maximize buttons on windows? (y/n): " enable_buttons
-if [[ "$enable_buttons" == "y" || "$enable_buttons" == "Y" ]]; then
-  gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
-  echo "Minimize and Maximize buttons enabled."
+if [ $? -eq 0 ]; then
+  echo "GNOME Tweaks installed successfully."
 else
-  echo "Skipped enabling Minimize and Maximize buttons."
+  echo "Failed to install GNOME Tweaks."
+  exit 1
 fi
 
-# Install Extension Manager from Flathub
+# Installing Extension Manager from Flathub
 echo "Installing Extension Manager from Flathub..."
-flatpak install -y flathub org.gnome.shell.extensions.manager
+confirm
+flatpak install flathub com.mattjakeman.ExtensionManager
 
-# Ask user if they want to update the system packages at the end
-read -p "Do you want to update the system packages now? (y/n): " update_system
-if [[ "$update_system" == "y" || "$update_system" == "Y" ]]; then
-  echo "Updating system packages..."
-  dnf update -y
-  echo "System packages updated."
+if [ $? -eq 0 ]; then
+  echo "Extension Manager installed successfully."
 else
-  echo "Skipping system update."
+  echo "Failed to install Extension Manager."
+  exit 1
 fi
 
-echo "Setup complete! Your Fedora system is ready to use."
+# Ask the user if they want to update the system
+read -p "Do you want to update the system packages now? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  confirm
+  echo "Updating system packages..."
+  dnf update
+  echo "System update completed."
+else
+  echo "System update skipped."
+fi
+
+echo "Post-installation configuration completed successfully."
