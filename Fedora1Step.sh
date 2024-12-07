@@ -60,20 +60,4 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   flatpak install flathub com.mattjakeman.ExtensionManager || echo "Failed to install Extension Manager."
 fi
 
-# Installing Fish shell and setting it as default
-read -p "Do you want to install the Fish shell? (y/n): " answer
-if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-  echo "Installing Fish shell..."
-  dnf install fish || echo "Failed to install Fish shell."
-
-  # Ask the user if they want to set Fish as the default shell
-  read -p "Do you want to set Fish as your default shell? (y/n): " answer
-  if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-    echo "Setting Fish as the default shell for the user..."
-    chsh -s /bin/fish || echo "Failed to set Fish as the default shell."
-  else
-    echo "Fish shell installation completed without setting it as default."
-  fi
-fi
-
 echo "Post-installation configuration completed successfully."
