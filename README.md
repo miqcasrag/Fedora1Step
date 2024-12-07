@@ -12,7 +12,7 @@ A simple script to quickly set up your **Fedora 39+** system with essential tool
 
 ```bash
 sudo bash <(curl -s https://raw.githubusercontent.com/miqcasrag/Fedora1Step/main/Fedora1Step.sh)
-```bash
+```
 
 ---
 
