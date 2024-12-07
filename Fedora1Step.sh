@@ -28,16 +28,6 @@ else
   exit 1
 fi
 
-# Update AppStream metadata
-echo "Updating AppStream metadata..."
-dnf groupupdate -y core
-if [ $? -eq 0 ]; then
-  echo "AppStream metadata updated successfully."
-else
-  echo "There was an issue updating AppStream metadata."
-  exit 1
-fi
-
 # Install multimedia codecs
 echo "Installing multimedia codecs..."
 dnf install -y \
