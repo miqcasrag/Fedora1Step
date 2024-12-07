@@ -1,26 +1,46 @@
-# Fedora1Step Installer
+Fedora1Step Installer
 
-This script sets up your Fedora system with my essential repositories, GNOME tools and extensions in a single step.
+A simple script to quickly set up your Fedora 39+ system with essential tools and configurations.
 
----
-
-## 📜 **What it Configures**
-
-- Installs **RPM Fusion repositories** for additional software.
-- Updates your system packages.
-- Installs **GNOME Tweaks** for customization.
-- Enables **minimize and maximize buttons** in GNOME windows.
-- Installs the **Extension Manager** and key GNOME extensions:
-  - **Dash to Panel**
-  - **ArcMenu**
 
 ---
 
-## 🚀 **How to Run the Script**
+How to Install and Run
 
-### Option 1: Run Directly from GitHub
+Step 1: Open your terminal.
 
-Execute the following command in your terminal:
+Step 2: Run the following command to execute the script directly from GitHub:
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/miqcasrag/Fedora1Step/main/Fedora1Step.sh -o Fedora1Step.sh && sudo bash Fedora1Step.sh
+sudo bash <(curl -s https://raw.githubusercontent.com/miqcasrag/Fedora1Step/main/Fedora1Step.sh)
+
+
+---
+
+What the Script Does
+
+Installs RPM Fusion repositories
+
+Installs multimedia codecs for audio and video support
+
+Configures GNOME window buttons (minimize, maximize)
+
+Installs GNOME Shell Extension Manager from Flathub
+
+Offers an optional system update at the end
+
+
+
+---
+
+Contributing
+
+If you find a bug or want to improve the script, open a pull request on GitHub:
+https://github.com/miqcasrag/Fedora1Step
+
+
+---
+
+System Ready
+
+Your Fedora system is now configured with multimedia support and essential tools.
+
