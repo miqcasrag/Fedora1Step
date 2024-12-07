@@ -1,16 +1,16 @@
-Fedora1Step Installer
+# **Fedora1Step Installer**
 
-A simple script to quickly set up your Fedora 39+ system with essential tools and configurations.
-
+A simple script to quickly set up your **Fedora 39+** system with essential tools and configurations.
 
 ---
 
-How to Install and Run
+## **How to Install and Run**
 
-Step 1: Open your terminal.
+**Step 1:** Open your terminal.
 
-Step 2: Run the following command to execute the script directly from GitHub:
+**Step 2:** Run the following command to execute the script directly from GitHub:
 
+```bash
 sudo bash <(curl -s https://raw.githubusercontent.com/miqcasrag/Fedora1Step/main/Fedora1Step.sh)
 
 
@@ -35,6 +35,7 @@ Offers an optional system update at the end
 Contributing
 
 If you find a bug or want to improve the script, open a pull request on GitHub:
+
 https://github.com/miqcasrag/Fedora1Step
 
 
@@ -43,4 +44,6 @@ https://github.com/miqcasrag/Fedora1Step
 System Ready
 
 Your Fedora system is now configured with multimedia support and essential tools.
+
+¡Espero que te sea útil! Si necesitas algún otro ajuste, no dudes en preguntar.
 
