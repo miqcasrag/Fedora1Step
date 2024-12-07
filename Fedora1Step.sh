@@ -6,6 +6,21 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+# Ask the user if they want to update the system packages now
+read -p "Do you want to update the system packages now? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  echo "Updating system packages..."
+  dnf update -y
+  if [ $? -eq 0 ]; then
+    echo "System packages updated successfully."
+  else
+    echo "System update encountered an issue."
+    exit 1
+  fi
+else
+  echo "System update skipped."
+fi
+
 # Function to confirm actions
 confirm() {
     read -p "Do you want to proceed with this action? (y/n): " answer
@@ -57,7 +72,7 @@ fi
 # Install GNOME Tweaks
 echo "Installing GNOME Tweaks..."
 confirm
-dnf install gnome-tweaks
+dnf install -y gnome-tweaks
 
 if [ $? -eq 0 ]; then
   echo "GNOME Tweaks installed successfully."
@@ -78,15 +93,27 @@ else
   exit 1
 fi
 
-# Ask the user if they want to update the system
-read -p "Do you want to update the system packages now? (y/n): " answer
-if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-  confirm
-  echo "Updating system packages..."
-  dnf update
-  echo "System update completed."
+# Installing Fish shell and setting it as default
+echo "Installing Fish shell..."
+confirm
+dnf install -y fish
+
+if [ $? -eq 0 ]; then
+  echo "Fish shell installed successfully."
+
+  # Change the default shell to Fish
+  echo "Setting Fish as the default shell for the user..."
+  chsh -s $(which fish)
+
+  if [ $? -eq 0 ]; then
+    echo "Fish shell set as default successfully."
+  else
+    echo "Failed to set Fish shell as the default."
+    exit 1
+  fi
 else
-  echo "System update skipped."
+  echo "Failed to install Fish shell."
+  exit 1
 fi
 
 echo "Post-installation configuration completed successfully."
