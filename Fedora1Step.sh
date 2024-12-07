@@ -10,110 +10,63 @@ fi
 read -p "Do you want to update the system packages now? (y/n): " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   echo "Updating system packages..."
-  dnf update -y
-  if [ $? -eq 0 ]; then
-    echo "System packages updated successfully."
-  else
-    echo "System update encountered an issue."
-    exit 1
-  fi
-else
-  echo "System update skipped."
+  dnf update || echo "System update encountered an issue."
 fi
 
-# Function to confirm actions
-confirm() {
-    read -p "Do you want to proceed with this action? (y/n): " answer
-    if [[ "$answer" != "y" && "$answer" != "Y" ]]; then
-        echo "Action cancelled."
-        exit 1
-    fi
-}
-
 # Install RPM Fusion repositories (Free and Non-Free)
-echo "Installing RPM Fusion repositories..."
-confirm
-dnf install \
-  "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
-  "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
-
-if [ $? -eq 0 ]; then
-  echo "RPM Fusion repositories installed successfully."
-else
-  echo "There was an issue installing RPM Fusion repositories."
-  exit 1
+read -p "Do you want to install the RPM Fusion repositories? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  echo "Installing RPM Fusion repositories..."
+  dnf install \
+    "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+    "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm" \
+    || echo "Failed to install RPM Fusion repositories."
 fi
 
 # Update system packages
-echo "Updating system packages..."
-confirm
-dnf update @core
-
-if [ $? -eq 0 ]; then
-  echo "System packages updated successfully."
-else
-  echo "System update encountered an issue."
-  exit 1
+read -p "Do you want to update the system packages now? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  echo "Updating system packages..."
+  dnf update @core || echo "System update encountered an issue."
 fi
 
 # Install multimedia codecs
-echo "Installing multimedia codecs..."
-confirm
-dnf swap ffmpeg-free ffmpeg --allowerasing
-dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
-
-if [ $? -eq 0 ]; then
-  echo "Codecs installed and updated successfully."
-else
-  echo "There was an error installing multimedia codecs."
-  exit 1
+read -p "Do you want to install multimedia codecs? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  echo "Installing multimedia codecs..."
+  dnf swap ffmpeg-free ffmpeg --allowerasing || echo "Failed to swap FFmpeg packages."
+  dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin \
+    || echo "Failed to update multimedia packages."
 fi
 
 # Install GNOME Tweaks
-echo "Installing GNOME Tweaks..."
-confirm
-dnf install -y gnome-tweaks
-
-if [ $? -eq 0 ]; then
-  echo "GNOME Tweaks installed successfully."
-else
-  echo "Failed to install GNOME Tweaks."
-  exit 1
+read -p "Do you want to install GNOME Tweaks? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  echo "Installing GNOME Tweaks..."
+  dnf install gnome-tweaks || echo "Failed to install GNOME Tweaks."
 fi
 
 # Installing Extension Manager from Flathub
-echo "Installing Extension Manager from Flathub..."
-confirm
-flatpak install flathub com.mattjakeman.ExtensionManager
-
-if [ $? -eq 0 ]; then
-  echo "Extension Manager installed successfully."
-else
-  echo "Failed to install Extension Manager."
-  exit 1
+read -p "Do you want to install the Extension Manager from Flathub? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  echo "Installing Extension Manager from Flathub..."
+  flatpak install flathub com.mattjakeman.ExtensionManager || echo "Failed to install Extension Manager."
 fi
 
 # Installing Fish shell and setting it as default
-echo "Installing Fish shell..."
-confirm
-dnf install -y fish
+read -p "Do you want to install the Fish shell? (y/n): " answer
+if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+  echo "Installing Fish shell..."
+  dnf install fish || echo "Failed to install Fish shell."
 
-if [ $? -eq 0 ]; then
-  echo "Fish shell installed successfully."
-
-  # Change the default shell to Fish
-  echo "Setting Fish as the default shell for the user..."
-  chsh -s $(which fish)
-
-  if [ $? -eq 0 ]; then
-    echo "Fish shell set as default successfully."
+  # Ask the user if they want to set Fish as the default shell
+  read -p "Do you want to set Fish as your default shell? (y/n): " answer
+  if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+    echo "Setting Fish as the default shell for the user..."
+    chsh -s $(which fish) || echo "Failed to set Fish as the default shell."
   else
-    echo "Failed to set Fish shell as the default."
-    exit 1
+    echo "Fish shell installation completed without setting it as default."
   fi
-else
-  echo "Failed to install Fish shell."
-  exit 1
 fi
 
 echo "Post-installation configuration completed successfully."
