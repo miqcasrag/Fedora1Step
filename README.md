@@ -30,6 +30,6 @@ sudo bash <(curl -s https://raw.githubusercontent.com/miqcasrag/Fedora1Step/main
 
 ---
 
-Contributing
+## **Contributing**
 
 If you find a bug or want to improve the script, open a pull request on GitHub.
