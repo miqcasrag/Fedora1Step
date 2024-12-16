@@ -10,7 +10,7 @@ fi
 read -p "Do you want to remove the Fedora Flatpaks repository? (y/n): " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   echo "Removing Fedora Flatpaks repository..."
-  flatpak remote-delete fedora || echo "Failed to remove Fedora Flatpaks repository."
+  flatpak remote-delete fedora fedora-testing || echo "Failed to remove Fedora Flatpaks repository."
 fi
 
 # Ask the user if they want to update the system packages now
