@@ -10,7 +10,11 @@ A simple script to quickly set up your **Fedora 39+** system with essential tool
 
 - Installs RPM Fusion repositories
 
+- Offers a system update
+
 - Installs multimedia codecs for audio and video support
+
+- Installs GNOME Tweaks
 
 - Installs Extension Manager from Flathub
 
