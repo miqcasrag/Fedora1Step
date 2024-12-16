@@ -6,13 +6,13 @@ A simple script to quickly set up your **Fedora 39+** system with essential tool
 
 ## **What the Script Does**
 
+- Remove Fedora Flatpak repos (fedora and fedora-testing)
+
 - Installs RPM Fusion repositories
 
 - Installs multimedia codecs for audio and video support
 
-- Configures GNOME window buttons (minimize, maximize)
-
-- Installs GNOME Shell Extension Manager from Flathub
+- Installs Extension Manager from Flathub
 
 - Offers an optional system update at the end
 
