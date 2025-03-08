@@ -1,6 +1,6 @@
 # **Fedora1Step Installer**
 
-A simple script to quickly set up your **Fedora 39+** system with essential tools and configurations.
+A simple script to quickly set up your **Fedora 39+** GNOME system with essential tools and configurations.
 
 ---
 
