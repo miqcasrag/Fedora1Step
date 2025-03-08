@@ -65,4 +65,22 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   flatpak install flathub com.mattjakeman.ExtensionManager || echo "Failed to install Extension Manager."
 fi
 
-echo "Post-installation configuration completed successfully."
+# Simulate a loading effect
+echo -n "Finalizing post-installation"
+for i in {1..3}; do
+  echo -n "."
+  sleep 0.5
+done
+echo ""
+
+# Display the final message in a highlighted format
+echo -e "\e[1;32m✔ Post-installation configuration completed successfully! \e[0m"
+
+# Ask if the user wants to restart
+read -p "Do you want to restart now? (y/n): " restart_answer
+if [[ "$restart_answer" == "y" || "$restart_answer" == "Y" ]]; then
+  echo "Restarting the system..."
+  sudo reboot
+else
+  echo "Restart skipped. You may need to restart later for changes to take effect."
+fi
