@@ -36,7 +36,7 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
 fi
 
 # Update system packages
-read -p "Do you want to update the system packages now? (y/n): " answer
+read -p "Do you want to update the system packages now? This may take a few minutes. (y/n): " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   echo "Updating system packages..."
   dnf update || echo "System update encountered an issue."
