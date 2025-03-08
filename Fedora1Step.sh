@@ -25,13 +25,6 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   fi
 fi
 
-# Ask the user if they want to update the system packages now
-read -p "Do you want to update the system packages now? (y/n): " answer
-if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-  echo "Updating system packages..."
-  dnf update || echo "System update encountered an issue."
-fi
-
 # Install RPM Fusion repositories (Free and Non-Free)
 read -p "Do you want to install the RPM Fusion repositories? (y/n): " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
