@@ -10,12 +10,19 @@ fi
 read -p "Do you want to remove the Fedora Flatpaks repositories? (y/n): " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   echo "Removing Fedora Flatpaks repositories..."
-  flatpak remote-delete fedora || echo "Failed to remove 'fedora' repository."
-  flatpak remote-delete fedora-testing || echo "Failed to remove 'fedora-testing' repository."
   
-# Verify if the repositories have been removed
-  echo "Checking remaining Flatpak repositories..."
-  flatpak remotes
+  flatpak remote-delete fedora && echo "'fedora' repository removed successfully." || echo "Failed to remove 'fedora' repository."
+  flatpak remote-delete fedora-testing && echo "'fedora-testing' repository removed successfully." || echo "Failed to remove 'fedora-testing' repository."
+
+  # Check if only the official Flathub repository remains
+  remaining_repos=$(flatpak remotes --columns=name)
+
+  if [[ "$remaining_repos" == "flathub" ]]; then
+    echo "Fedora Flatpaks repositories have been successfully removed. Only the official Flathub repository remains."
+  else
+    echo "Unexpected repositories detected:"
+    echo "$remaining_repos"
+  fi
 fi
 
 # Ask the user if they want to update the system packages now
