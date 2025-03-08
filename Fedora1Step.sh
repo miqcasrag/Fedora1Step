@@ -14,7 +14,7 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   flatpak remote-delete fedora && echo "'fedora' repository removed successfully." || echo "Failed to remove 'fedora' repository."
   flatpak remote-delete fedora-testing && echo "'fedora-testing' repository removed successfully." || echo "Failed to remove 'fedora-testing' repository."
 
-  # Check if only the official Flathub repository remains
+# Check if only the official Flathub repository remains
   remaining_repos=$(flatpak remotes --columns=name)
 
   if [[ "$remaining_repos" == "flathub" ]]; then
