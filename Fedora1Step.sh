@@ -7,10 +7,15 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Remove Fedora Flatpaks repository
-read -p "Do you want to remove the Fedora Flatpaks repository? (y/n): " answer
+read -p "Do you want to remove the Fedora Flatpaks repositories? (y/n): " answer
 if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-  echo "Removing Fedora Flatpaks repository..."
-  flatpak remote-delete fedora fedora-testing || echo "Failed to remove Fedora Flatpaks repository."
+  echo "Removing Fedora Flatpaks repositories..."
+  flatpak remote-delete fedora || echo "Failed to remove 'fedora' repository."
+  flatpak remote-delete fedora-testing || echo "Failed to remove 'fedora-testing' repository."
+  
+# Verify if the repositories have been removed
+  echo "Checking remaining Flatpak repositories..."
+  flatpak remotes
 fi
 
 # Ask the user if they want to update the system packages now
